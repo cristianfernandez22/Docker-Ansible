@@ -1,0 +1,20 @@
+---
+- name: laboratorio de automatizacion
+  hosts: mis_contenedores
+  gather_facts: no
+  vars:
+    archivo_log: "/tmp/reporte_ansible.log"  # <--- Definimos la variable aquí
+
+  tasks:
+    - name: Verificar el nombre del host
+      raw: hostname
+      register: resultado_hostname
+
+    - name: Mostrar el nombre en la consola de Ansible
+      debug:
+        msg: "El contenedor se llama: {{ resultado_hostname.stdout }}"
+
+    - name: Crear un archivo de log usando variables
+      raw: "touch {{ archivo_log }}" # <--- Usamos la variable aquí
+    - name: Limpieza de logs antiguos
+      raw: rm /tmp/ansible_fue_aqui.log
